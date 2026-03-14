@@ -123,6 +123,7 @@ max-width:300px;
 border-radius:10px;
 display:block;
 margin:auto;
+transform:scaleX(-1); /* preview mirror seperti kamera HP */
 }
 
 /* PHOTOBOX */
@@ -138,9 +139,7 @@ gap:8px;
 max-width:200px;
 width:100%;
 box-shadow:0 5px 20px rgba(0,0,0,0.3);
-margin-top:15px;
-margin-left:auto;
-margin-right:auto;
+margin:15px auto;
 }
 
 .strip-frame{
@@ -164,8 +163,8 @@ display:none;
 position:absolute;
 bottom:0;
 left:0;
-width:250px;
-max-width:60vw;
+width:400px;
+max-width:75vw;
 }
 
 .page-img-right{
@@ -207,30 +206,6 @@ z-index:1000;
 @keyframes confettiFall{
 0%{transform:translateY(-10px) rotate(0deg);}
 100%{transform:translateY(110vh) rotate(720deg);}
-}
-
-/* MOBILE EXTRA */
-
-@media (max-width:480px){
-
-.big{
-font-size:30px;
-}
-
-.card{
-padding:18px;
-}
-
-button{
-font-size:15px;
-padding:10px 18px;
-}
-
-.page-img-left,
-.page-img-right{
-width:200px;
-}
-
 }
 
 </style>
@@ -290,7 +265,7 @@ width:200px;
 
 <p>untuk kamu yang paling spesial</p>
 
-<p style="max-width:400px">
+<p style="max-width:700px">
 Hari ini adalah hari yang istimewa,
 karena dunia merayakan hari lahir seseorang
 yang sangat berarti buat aku.
@@ -345,6 +320,8 @@ dan selalu menemani setiap langkahmu.
 <br>
 
 <button onclick="takePhoto()">Ambil Foto</button>
+<button onclick="switchCamera()">Switch Kamera</button>
+<button onclick="retakePhotos()">Take Ulang</button>
 
 <div class="photostrip" id="photostrip">
 
@@ -475,10 +452,17 @@ let photo3=document.getElementById("photo3");
 
 let photoCount=0;
 
+let currentFacing="user";
+let stream;
+
 async function startCamera(){
 
-const stream = await navigator.mediaDevices.getUserMedia({
-video:{facingMode:"user"},
+if(stream){
+stream.getTracks().forEach(track=>track.stop());
+}
+
+stream = await navigator.mediaDevices.getUserMedia({
+video:{facingMode:currentFacing},
 audio:false
 });
 
@@ -486,12 +470,34 @@ video.srcObject=stream;
 
 }
 
+function switchCamera(){
+
+if(currentFacing==="user"){
+currentFacing="environment";
+}else{
+currentFacing="user";
+}
+
+startCamera();
+
+}
+
 function takePhoto(){
+
+if(photoCount>=3){
+alert("Fotony udah cukup 😆");
+return;
+}
 
 let ctx=canvas.getContext("2d");
 
 canvas.width=video.videoWidth;
 canvas.height=video.videoHeight;
+
+/* agar foto tidak mirror */
+
+ctx.translate(canvas.width,0);
+ctx.scale(-1,1);
 
 ctx.drawImage(video,0,0);
 
@@ -502,6 +508,16 @@ photoCount++;
 if(photoCount==1) photo1.src=data;
 else if(photoCount==2) photo2.src=data;
 else if(photoCount==3) photo3.src=data;
+
+}
+
+function retakePhotos(){
+
+photo1.src="";
+photo2.src="";
+photo3.src="";
+
+photoCount=0;
 
 }
 
