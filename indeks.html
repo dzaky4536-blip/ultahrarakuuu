@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Poppins', sans-serif;
+text-align:center;
+overflow-x:hidden;
+}
+
+/* PAGE */
+
+.page{
+display:none;
+min-height:100vh;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:20px;
+position:relative;
+}
+
+.page.active{
+display:flex;
+}
+
+.pink{background:#ffc0cb;}
+.cream{background:#fff5e1;}
+
+.big{
+font-size:42px;
+font-weight:bold;
+}
+
+/* PNG POSITION */
+
+.img-left-bottom{
+position:absolute;
+bottom:0;
+left:0;
+width:320px;
+pointer-events:none;
+}
+
+.img-right-bottom{
+position:absolute;
+bottom:0;
+right:0;
+width:320px;
+pointer-events:none;
+}
+
+/* CARD */
+
+.card{
+background:white;
+padding:25px 30px;
+border-radius:14px;
+box-shadow:0 8px 25px rgba(0,0,0,0.15);
+max-width:420px;
+width:100%;
+display:flex;
+flex-direction:column;
+align-items:center;
+z-index:2;
+}
+
+/* BUTTON */
+
+button{
+padding:10px 20px;
+border:none;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;
+font-family:'Poppins', sans-serif;
+}
+
+.nav-btn{
+display:flex;
+gap:12px;
+margin-top:20px;
+justify-content:center;
+}
+
+/* CALENDAR */
+
+.calendar{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:6px;
+width:100%;
+max-width:340px;
+margin-top:20px;
+}
+
+.day{
+background:white;
+padding:12px;
+border-radius:8px;
+cursor:pointer;
+box-shadow:0 0 5px rgba(0,0,0,0.2);
+}
+
+/* POPUP */
+
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+display:none;
+justify-content:center;
+align-items:center;
+background:rgba(0,0,0,0.4);
+z-index:2000;
+}
+
+.popup-box{
+background:white;
+padding:25px;
+border-radius:12px;
+}
+
+/* CAMERA */
+
+video{
+width:100%;
+max-width:320px;
+border-radius:10px;
+display:block;
+margin:auto;
+}
+
+/* PHOTOBOX */
+
+.photostrip{
+background:#ffb6c1;
+padding:15px;
+border-radius:15px;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:8px;
+max-width:220px;
+width:100%;
+box-shadow:0 5px 20px rgba(0,0,0,0.3);
+margin-top:15px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.strip-frame{
+background:white;
+padding:6px;
+border-radius:10px;
+}
+
+.strip-frame img{
+width:180px;
+border-radius:6px;
+}
+
+canvas{
+display:none;
+}
+
+/* LOVE RAIN */
+
+.love-rain{
+position:fixed;
+top:-50px;
+font-size:24px;
+animation:fall linear forwards;
+pointer-events:none;
+z-index:999;
+}
+
+@keyframes fall{
+0%{transform:translateY(-50px);opacity:1;}
+100%{transform:translateY(110vh);opacity:0;}
+}
+
+/* CONFETTI */
+
+.confetti{
+position:fixed;
+width:8px;
+height:8px;
+top:-10px;
+opacity:0.9;
+animation:confettiFall linear forwards;
+z-index:1000;
+}
+
+@keyframes confettiFall{
+0%{transform:translateY(-10px) rotate(0deg);}
+100%{transform:translateY(110vh) rotate(720deg);}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+
+<div class="page pink active" id="page1">
+<div class="card">
+
+<h2>Hai Rara, Kak, Seng, Dindongyehet😋 ketemu lagi nichh</h2>
+
+<div class="nav-btn">
+<button onclick="nextPage()">Lanjut</button>
+</div>
+
+</div>
+</div>
+
+<!-- PAGE 2 -->
+
+<div class="page cream" id="page2">
+<div class="card">
+
+<h2>Oh iya kamu ultah tanggal berapa sihh?</h2>
+<h3>Maret</h3>
+
+<div class="calendar" id="calendar"></div>
+
+<div class="nav-btn">
+<button onclick="prevPage()">Back</button>
+</div>
+
+</div>
+</div>
+
+<!-- POPUP -->
+
+<div class="popup" id="popup">
+<div class="popup-box">
+<p id="popupText"></p>
+<button onclick="closePopup()">OK</button>
+</div>
+</div>
+
+<!-- PAGE 3 -->
+
+<div class="page pink" id="page3">
+
+<img src="gambar3.png" class="img-left-bottom">
+
+<div class="card">
+
+<div class="big">Happy Birthday</div>
+
+<p>untuk kamu yang paling spesial</p>
+
+<p style="max-width:400px">
+Hari ini adalah hari yang istimewa,
+karena dunia merayakan hari lahir seseorang
+yang sangat berarti buat aku.
+</p>
+
+<div class="nav-btn">
+<button onclick="prevPage()">Back</button>
+<button onclick="nextPage()">Lanjut</button>
+</div>
+
+</div>
+</div>
+
+<!-- PAGE 4 -->
+
+<div class="page cream" id="page4">
+
+<img src="gambar4.png" class="img-right-bottom">
+
+<div class="card">
+
+<p style="max-width:420px">
+
+Selamat ulang tahun senggg.
+Semoga di usia mu yang ke-21 tahun ini kamu selalu sehat,
+bahagia, dan semua impianmu tercapai.
+
+Aku harap aku bisa terus ada di sisimu
+dan selalu menemani setiap langkahmu.
+
+</p>
+
+<p>From Panglima Mancing</p>
+
+<div class="nav-btn">
+<button onclick="prevPage()">Back</button>
+<button onclick="nextPage()">Lanjut</button>
+</div>
+
+</div>
+</div>
+
+<!-- PAGE 5 -->
+
+<div class="page pink" id="page5">
+<div class="card">
+
+<h2>coba pap kamu abis liat inii</h2>
+
+<video id="video" autoplay playsinline muted></video>
+
+<br>
+
+<button onclick="takePhoto()">Ambil Foto</button>
+
+<div class="photostrip" id="photostrip">
+
+<div class="strip-frame">
+<img id="photo1">
+</div>
+
+<div class="strip-frame">
+<img id="photo2">
+</div>
+
+<div class="strip-frame">
+<img id="photo3">
+</div>
+
+</div>
+
+<button onclick="downloadStrip()">Save Photo Strip</button>
+
+<div class="nav-btn">
+<button onclick="prevPage()">Back</button>
+</div>
+
+</div>
+
+<canvas id="canvas"></canvas>
+
+</div>
+
+<script>
+
+let page=1;
+
+function nextPage(){
+document.getElementById("page"+page).classList.remove("active");
+page++;
+document.getElementById("page"+page).classList.add("active");
+
+if(page==3){startConfetti();}
+if(page==5){startCamera();}
+}
+
+function prevPage(){
+document.getElementById("page"+page).classList.remove("active");
+page--;
+document.getElementById("page"+page).classList.add("active");
+}
+
+/* CALENDAR */
+
+let click15=0;
+
+function createCalendar(){
+
+let cal=document.getElementById("calendar");
+
+for(let i=1;i<=31;i++){
+
+let d=document.createElement("div");
+d.className="day";
+d.innerText=i;
+
+d.onclick=function(){
+
+if(i!==15){
+showPopup("Salah 😝");
+}
+
+else{
+
+click15++;
+
+if(click15==1){
+showPopup("yakin nih?");
+}
+
+else if(click15==2){
+showPopup("ah yang benerrr");
+}
+
+else{
+nextPage();
+}
+
+}
+
+};
+
+cal.appendChild(d);
+
+}
+
+}
+
+createCalendar();
+
+/* POPUP */
+
+function showPopup(text){
+document.getElementById("popupText").innerText=text;
+document.getElementById("popup").style.display="flex";
+}
+
+function closePopup(){
+document.getElementById("popup").style.display="none";
+}
+
+/* CAMERA */
+
+let video=document.getElementById("video");
+let canvas=document.getElementById("canvas");
+
+let photo1=document.getElementById("photo1");
+let photo2=document.getElementById("photo2");
+let photo3=document.getElementById("photo3");
+
+let photoCount=0;
+
+async function startCamera(){
+
+const stream = await navigator.mediaDevices.getUserMedia({
+video:{facingMode:"user"},
+audio:false
+});
+
+video.srcObject=stream;
+
+}
+
+function takePhoto(){
+
+let ctx=canvas.getContext("2d");
+
+canvas.width=video.videoWidth;
+canvas.height=video.videoHeight;
+
+ctx.drawImage(video,0,0);
+
+let data=canvas.toDataURL("image/png");
+
+photoCount++;
+
+if(photoCount==1) photo1.src=data;
+else if(photoCount==2) photo2.src=data;
+else if(photoCount==3) photo3.src=data;
+
+}
+
+function downloadStrip(){
+
+html2canvas(document.getElementById("photostrip")).then(canvas=>{
+let link=document.createElement("a");
+link.download="photostrip.png";
+link.href=canvas.toDataURL();
+link.click();
+});
+
+}
+
+/* LOVE RAIN */
+
+function createLove(){
+let love=document.createElement("div");
+love.classList.add("love-rain");
+love.innerHTML="❤️";
+love.style.left=Math.random()*100+"vw";
+love.style.animationDuration=(Math.random()*3+3)+"s";
+love.style.fontSize=(Math.random()*20+20)+"px";
+document.body.appendChild(love);
+setTimeout(()=>{love.remove();},6000);
+}
+
+setInterval(createLove,300);
+
+/* CONFETTI */
+
+function createConfetti(){
+
+let conf=document.createElement("div");
+conf.classList.add("confetti");
+
+let colors=["#ff0a54","#ff477e","#ff85a1","#ffd6e0","#ffc300"];
+
+conf.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
+conf.style.left=Math.random()*100+"vw";
+conf.style.animationDuration=(Math.random()*3+2)+"s";
+
+document.body.appendChild(conf);
+
+setTimeout(()=>{conf.remove();},5000);
+
+}
+
+function startConfetti(){
+for(let i=0;i<120;i++){
+setTimeout(createConfetti,i*20);
+}
+}
+
+</script>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+</body>
+</html>
