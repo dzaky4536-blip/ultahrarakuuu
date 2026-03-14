@@ -16,6 +16,8 @@ text-align:center;
 overflow-x:hidden;
 }
 
+/* PAGE */
+
 .page{
 display:none;
 min-height:100vh;
@@ -38,6 +40,8 @@ font-size:36px;
 font-weight:700;
 }
 
+/* CARD */
+
 .card{
 background:white;
 padding:22px;
@@ -49,6 +53,8 @@ display:flex;
 flex-direction:column;
 align-items:center;
 }
+
+/* BUTTON */
 
 button{
 padding:12px 22px;
@@ -67,6 +73,8 @@ justify-content:center;
 flex-wrap:wrap;
 }
 
+/* CALENDAR */
+
 .calendar{
 display:grid;
 grid-template-columns:repeat(7,1fr);
@@ -84,6 +92,8 @@ cursor:pointer;
 font-size:14px;
 box-shadow:0 0 5px rgba(0,0,0,0.2);
 }
+
+/* POPUP */
 
 .popup{
 position:fixed;
@@ -105,6 +115,8 @@ border-radius:14px;
 max-width:300px;
 }
 
+/* CAMERA */
+
 video{
 width:100%;
 max-width:300px;
@@ -112,6 +124,8 @@ border-radius:10px;
 display:block;
 margin:auto;
 }
+
+/* PHOTOBOX */
 
 .photostrip{
 background:#ffb6c1;
@@ -144,6 +158,8 @@ canvas{
 display:none;
 }
 
+/* PNG PAGE IMAGE */
+
 .page-img-left{
 position:absolute;
 bottom:0;
@@ -160,6 +176,8 @@ width:250px;
 max-width:60vw;
 }
 
+/* LOVE RAIN */
+
 .love-rain{
 position:fixed;
 top:-50px;
@@ -173,6 +191,8 @@ z-index:999;
 0%{transform:translateY(-50px);opacity:1;}
 100%{transform:translateY(110vh);opacity:0;}
 }
+
+/* CONFETTI */
 
 .confetti{
 position:fixed;
@@ -188,6 +208,8 @@ z-index:1000;
 0%{transform:translateY(-10px) rotate(0deg);}
 100%{transform:translateY(110vh) rotate(720deg);}
 }
+
+/* MOBILE EXTRA */
 
 @media (max-width:480px){
 
@@ -217,28 +239,38 @@ width:200px;
 <body>
 
 <!-- PAGE 1 -->
+
 <div class="page pink active" id="page1">
 <div class="card">
+
 <h2>Hai Rara, Kak, Seng, Dindongyehet😋 ketemu lagi nichh</h2>
+
 <div class="nav-btn">
 <button onclick="nextPage()">Lanjut</button>
 </div>
+
 </div>
 </div>
 
 <!-- PAGE 2 -->
+
 <div class="page cream" id="page2">
 <div class="card">
+
 <h2>Oh iya kamu ultah tanggal berapa sihh?</h2>
 <h3>Maret</h3>
+
 <div class="calendar" id="calendar"></div>
+
 <div class="nav-btn">
 <button onclick="prevPage()">Back</button>
 </div>
+
 </div>
 </div>
 
 <!-- POPUP -->
+
 <div class="popup" id="popup">
 <div class="popup-box">
 <p id="popupText"></p>
@@ -247,208 +279,300 @@ width:200px;
 </div>
 
 <!-- PAGE 3 -->
+
 <div class="page pink" id="page3">
+
 <img src="gambar3.png" class="page-img-left">
+
 <div class="card">
+
 <div class="big">Happy Birthday</div>
+
 <p>untuk kamu yang paling spesial</p>
+
 <p style="max-width:400px">
 Hari ini adalah hari yang istimewa,
 karena dunia merayakan hari lahir seseorang
 yang sangat berarti buat aku.
 </p>
+
 <div class="nav-btn">
 <button onclick="prevPage()">Back</button>
 <button onclick="nextPage()">Lanjut</button>
 </div>
+
 </div>
 </div>
 
 <!-- PAGE 4 -->
+
 <div class="page cream" id="page4">
+
 <img src="gambar4.png" class="page-img-right">
+
 <div class="card">
+
 <p style="max-width:420px">
+
 Selamat ulang tahun senggg.
 Semoga di usia mu yang ke-21 tahun ini kamu selalu sehat,
 bahagia, dan semua impianmu tercapai.
+
 Aku harap aku bisa terus ada di sisimu
 dan selalu menemani setiap langkahmu.
+
 </p>
+
 <p>From Panglima Mancing</p>
+
 <div class="nav-btn">
 <button onclick="prevPage()">Back</button>
 <button onclick="nextPage()">Lanjut</button>
 </div>
+
 </div>
 </div>
 
 <!-- PAGE 5 -->
+
 <div class="page pink" id="page5">
 <div class="card">
+
 <h2>coba pap kamu abis liat inii</h2>
+
 <video id="video" autoplay playsinline muted></video>
+
 <br>
+
 <button onclick="takePhoto()">Ambil Foto</button>
-<button id="switchCamBtn">Ganti Kamera</button>
-<button onclick="retakePhoto()">Ulang Foto</button>
+
 <div class="photostrip" id="photostrip">
+
 <div class="strip-frame">
 <img id="photo1">
 </div>
+
 <div class="strip-frame">
 <img id="photo2">
 </div>
+
 <div class="strip-frame">
 <img id="photo3">
 </div>
+
 </div>
+
 <button onclick="downloadStrip()">Save Photo Strip</button>
+
 <div class="nav-btn">
 <button onclick="prevPage()">Back</button>
 </div>
+
 </div>
+
 <canvas id="canvas"></canvas>
+
 </div>
 
 <script>
+
 let page=1;
+
 function nextPage(){
+
 document.getElementById("page"+page).classList.remove("active");
 page++;
+
 document.getElementById("page"+page).classList.add("active");
-if(page==3) startConfetti();
-if(page==5) startCamera();
+
+if(page==3){
+startConfetti();
 }
+
+if(page==5){
+startCamera();
+}
+
+}
+
 function prevPage(){
+
 document.getElementById("page"+page).classList.remove("active");
 page--;
+
 document.getElementById("page"+page).classList.add("active");
+
 }
 
 /* CALENDAR */
+
 let click15=0;
+
 function createCalendar(){
+
 let cal=document.getElementById("calendar");
+
 for(let i=1;i<=31;i++){
+
 let d=document.createElement("div");
+
 d.className="day";
 d.innerText=i;
+
 d.onclick=function(){
+
 if(i!==15){
 showPopup("Salah 😝");
-}else{
+}
+
+else{
+
 click15++;
-if(click15==1) showPopup("yakin nih?");
-else if(click15==2) showPopup("ah yang benerrr");
-else nextPage();
+
+if(click15==1){
+showPopup("yakin nih?");
 }
+
+else if(click15==2){
+showPopup("ah yang benerrr");
+}
+
+else{
+nextPage();
+}
+
+}
+
 };
+
 cal.appendChild(d);
+
 }
+
 }
+
 createCalendar();
 
 /* POPUP */
+
 function showPopup(text){
 document.getElementById("popupText").innerText=text;
 document.getElementById("popup").style.display="flex";
 }
+
 function closePopup(){
 document.getElementById("popup").style.display="none";
 }
 
 /* CAMERA */
+
 let video=document.getElementById("video");
 let canvas=document.getElementById("canvas");
+
 let photo1=document.getElementById("photo1");
 let photo2=document.getElementById("photo2");
 let photo3=document.getElementById("photo3");
+
 let photoCount=0;
-let currentFacing = "user";
-let stream = null;
 
-async function startCamera() {
-    if(stream) stream.getTracks().forEach(track => track.stop());
-    try {
-        stream = await navigator.mediaDevices.getUserMedia({
-            video: { facingMode: currentFacing },
-            audio: false
-        });
-        video.srcObject = stream;
-    } catch(err){
-        alert("Tidak bisa mengakses kamera: " + err);
-    }
+async function startCamera(){
+
+const stream = await navigator.mediaDevices.getUserMedia({
+video:{facingMode:"user"},
+audio:false
+});
+
+video.srcObject=stream;
+
 }
-
-document.getElementById("switchCamBtn").onclick = () => {
-    currentFacing = currentFacing === "user" ? "environment" : "user";
-    startCamera();
-};
 
 function takePhoto(){
-    let ctx = canvas.getContext("2d");
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    if(currentFacing === "user"){ 
-        ctx.translate(canvas.width, 0);
-        ctx.scale(-1, 1);
-    }
-    ctx.drawImage(video,0,0);
-    ctx.setTransform(1,0,0,1,0,0);
-    let data = canvas.toDataURL("image/png");
-    photoCount++;
-    if(photoCount==1) photo1.src = data;
-    else if(photoCount==2) photo2.src = data;
-    else if(photoCount==3) photo3.src = data;
+
+let ctx=canvas.getContext("2d");
+
+canvas.width=video.videoWidth;
+canvas.height=video.videoHeight;
+
+ctx.drawImage(video,0,0);
+
+let data=canvas.toDataURL("image/png");
+
+photoCount++;
+
+if(photoCount==1) photo1.src=data;
+else if(photoCount==2) photo2.src=data;
+else if(photoCount==3) photo3.src=data;
+
 }
 
-function retakePhoto(){
-    if(photoCount === 0) return;
-    if(photoCount==1) photo1.src="";
-    else if(photoCount==2) photo2.src="";
-    else if(photoCount==3) photo3.src="";
-    photoCount--;
-}
-
-/* PHOTO STRIP DOWNLOAD */
 function downloadStrip(){
+
 html2canvas(document.getElementById("photostrip")).then(canvas=>{
 let link=document.createElement("a");
 link.download="photostrip.png";
 link.href=canvas.toDataURL();
 link.click();
+});
+
 }
 
 /* LOVE RAIN */
+
 function createLove(){
+
 let love=document.createElement("div");
+
 love.classList.add("love-rain");
+
 love.innerHTML="❤️";
+
 love.style.left=Math.random()*100+"vw";
+
 love.style.animationDuration=(Math.random()*3+3)+"s";
+
 love.style.fontSize=(Math.random()*20+20)+"px";
+
 document.body.appendChild(love);
+
 setTimeout(()=>{love.remove();},6000);
+
 }
+
 setInterval(createLove,300);
 
 /* CONFETTI */
+
 function createConfetti(){
+
 let conf=document.createElement("div");
+
 conf.classList.add("confetti");
+
 let colors=["#ff0a54","#ff477e","#ff85a1","#ffd6e0","#ffc300"];
+
 conf.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
+
 conf.style.left=Math.random()*100+"vw";
+
 conf.style.animationDuration=(Math.random()*3+2)+"s";
+
 document.body.appendChild(conf);
+
 setTimeout(()=>{conf.remove();},5000);
+
 }
+
 function startConfetti(){
-for(let i=0;i<120;i++) setTimeout(createConfetti,i*20);
+
+for(let i=0;i<120;i++){
+setTimeout(createConfetti,i*20);
 }
+
+}
+
 </script>
 
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
 </body>
 </html>
