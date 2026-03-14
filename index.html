@@ -164,16 +164,16 @@ display:none;
 position:absolute;
 bottom:0;
 left:0;
-width:180px;
-max-width:45vw;
+width:250px;
+max-width:60vw;
 }
 
 .page-img-right{
 position:absolute;
 bottom:0;
 right:0;
-width:180px;
-max-width:45vw;
+width:250px;
+max-width:60vw;
 }
 
 /* LOVE RAIN */
@@ -228,7 +228,7 @@ padding:10px 18px;
 
 .page-img-left,
 .page-img-right{
-width:150px;
+width:200px;
 }
 
 }
@@ -341,10 +341,10 @@ dan selalu menemani setiap langkahmu.
 <h2>coba pap kamu abis liat inii</h2>
 
 <video id="video" autoplay playsinline muted></video>
-
 <br>
 
 <button onclick="takePhoto()">Ambil Foto</button>
+<button id="switchCamBtn">Ganti Kamera</button>
 
 <div class="photostrip" id="photostrip">
 
@@ -474,46 +474,57 @@ let photo2=document.getElementById("photo2");
 let photo3=document.getElementById("photo3");
 
 let photoCount=0;
+let currentFacing = "user"; // user = depan, environment = belakang
+let stream = null;
 
-async function startCamera(){
+async function startCamera() {
+    if(stream){
+        stream.getTracks().forEach(track => track.stop());
+    }
 
-const stream = await navigator.mediaDevices.getUserMedia({
-video:{facingMode:"user"},
-audio:false
-});
+    try {
+        stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: currentFacing },
+            audio: false
+        });
 
-video.srcObject=stream;
-
+        video.srcObject = stream;
+        video.style.transform = "scaleX(1)"; // selalu tidak mirror
+    } catch(err){
+        alert("Tidak bisa mengakses kamera: " + err);
+    }
 }
+
+// switch kamera
+document.getElementById("switchCamBtn").onclick = () => {
+    currentFacing = currentFacing === "user" ? "environment" : "user";
+    startCamera();
+};
 
 function takePhoto(){
+    let ctx=canvas.getContext("2d");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
 
-let ctx=canvas.getContext("2d");
+    ctx.drawImage(video,0,0);
 
-canvas.width=video.videoWidth;
-canvas.height=video.videoHeight;
+    let data = canvas.toDataURL("image/png");
 
-ctx.drawImage(video,0,0);
-
-let data=canvas.toDataURL("image/png");
-
-photoCount++;
-
-if(photoCount==1) photo1.src=data;
-else if(photoCount==2) photo2.src=data;
-else if(photoCount==3) photo3.src=data;
-
+    photoCount++;
+    if(photoCount==1) photo1.src = data;
+    else if(photoCount==2) photo2.src = data;
+    else if(photoCount==3) photo3.src = data;
 }
 
-function downloadStrip(){
+/* PHOTO STRIP DOWNLOAD */
 
+function downloadStrip(){
 html2canvas(document.getElementById("photostrip")).then(canvas=>{
 let link=document.createElement("a");
 link.download="photostrip.png";
 link.href=canvas.toDataURL();
 link.click();
 });
-
 }
 
 /* LOVE RAIN */
