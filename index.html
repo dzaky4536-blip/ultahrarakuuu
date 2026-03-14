@@ -119,10 +119,11 @@ max-width:300px;
 
 video{
 width:100%;
-max-width:300px;
+max-width:320px;
 border-radius:10px;
 display:block;
 margin:auto;
+transform:scaleX(1);
 }
 
 /* PHOTOBOX */
@@ -164,7 +165,7 @@ display:none;
 position:absolute;
 bottom:0;
 left:0;
-width:250px;
+width:260px;
 max-width:60vw;
 }
 
@@ -172,8 +173,8 @@ max-width:60vw;
 position:absolute;
 bottom:0;
 right:0;
-width:200px;
-max-width:50vw;
+width:260px;
+max-width:60vw;
 }
 
 /* LOVE RAIN */
@@ -209,26 +210,11 @@ z-index:1000;
 100%{transform:translateY(110vh) rotate(720deg);}
 }
 
-/* MOBILE EXTRA */
-
 @media (max-width:480px){
-
-.big{
-font-size:30px;
-}
-
-.card{
-padding:18px;
-}
-
-button{
-font-size:15px;
-padding:10px 18px;
-}
 
 .page-img-left,
 .page-img-right{
-width:150px;
+width:220px;
 }
 
 }
@@ -237,8 +223,6 @@ width:150px;
 </head>
 
 <body>
-
-<!-- PAGE 1 -->
 
 <div class="page pink active" id="page1">
 <div class="card">
@@ -251,8 +235,6 @@ width:150px;
 
 </div>
 </div>
-
-<!-- PAGE 2 -->
 
 <div class="page cream" id="page2">
 <div class="card">
@@ -269,16 +251,12 @@ width:150px;
 </div>
 </div>
 
-<!-- POPUP -->
-
 <div class="popup" id="popup">
 <div class="popup-box">
 <p id="popupText"></p>
 <button onclick="closePopup()">OK</button>
 </div>
 </div>
-
-<!-- PAGE 3 -->
 
 <div class="page pink" id="page3">
 
@@ -290,7 +268,7 @@ width:150px;
 
 <p>untuk kamu yang paling spesial</p>
 
-<p style="max-width:800px">
+<p style="max-width:400px">
 Hari ini adalah hari yang istimewa,
 karena dunia merayakan hari lahir seseorang
 yang sangat berarti buat aku.
@@ -304,15 +282,13 @@ yang sangat berarti buat aku.
 </div>
 </div>
 
-<!-- PAGE 4 -->
-
 <div class="page cream" id="page4">
 
 <img src="gambar4.png" class="page-img-right">
 
 <div class="card">
 
-<p style="max-width:540px">
+<p style="max-width:420px">
 
 Selamat ulang tahun senggg.
 Semoga di usia mu yang ke-21 tahun ini kamu selalu sehat,
@@ -332,8 +308,6 @@ dan selalu menemani setiap langkahmu.
 
 </div>
 </div>
-
-<!-- PAGE 5 -->
 
 <div class="page pink" id="page5">
 <div class="card">
@@ -404,8 +378,6 @@ document.getElementById("page"+page).classList.add("active");
 
 }
 
-/* CALENDAR */
-
 let click15=0;
 
 function createCalendar(){
@@ -453,8 +425,6 @@ cal.appendChild(d);
 
 createCalendar();
 
-/* POPUP */
-
 function showPopup(text){
 document.getElementById("popupText").innerText=text;
 document.getElementById("popup").style.display="flex";
@@ -464,109 +434,16 @@ function closePopup(){
 document.getElementById("popup").style.display="none";
 }
 
-/* CAMERA */
-
 let video=document.getElementById("video");
-let canvas=document.getElementById("canvas");
-
-let photo1=document.getElementById("photo1");
-let photo2=document.getElementById("photo2");
-let photo3=document.getElementById("photo3");
-
-let photoCount=0;
 
 async function startCamera(){
 
 const stream = await navigator.mediaDevices.getUserMedia({
-video:{facingMode:"user"},
+video:{facingMode:{exact:"environment"}},
 audio:false
 });
 
 video.srcObject=stream;
-
-}
-
-function takePhoto(){
-
-let ctx=canvas.getContext("2d");
-
-canvas.width=video.videoWidth;
-canvas.height=video.videoHeight;
-
-ctx.drawImage(video,0,0);
-
-let data=canvas.toDataURL("image/png");
-
-photoCount++;
-
-if(photoCount==1) photo1.src=data;
-else if(photoCount==2) photo2.src=data;
-else if(photoCount==3) photo3.src=data;
-
-}
-
-function downloadStrip(){
-
-html2canvas(document.getElementById("photostrip")).then(canvas=>{
-let link=document.createElement("a");
-link.download="photostrip.png";
-link.href=canvas.toDataURL();
-link.click();
-});
-
-}
-
-/* LOVE RAIN */
-
-function createLove(){
-
-let love=document.createElement("div");
-
-love.classList.add("love-rain");
-
-love.innerHTML="❤️";
-
-love.style.left=Math.random()*100+"vw";
-
-love.style.animationDuration=(Math.random()*3+3)+"s";
-
-love.style.fontSize=(Math.random()*20+20)+"px";
-
-document.body.appendChild(love);
-
-setTimeout(()=>{love.remove();},6000);
-
-}
-
-setInterval(createLove,300);
-
-/* CONFETTI */
-
-function createConfetti(){
-
-let conf=document.createElement("div");
-
-conf.classList.add("confetti");
-
-let colors=["#ff0a54","#ff477e","#ff85a1","#ffd6e0","#ffc300"];
-
-conf.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
-
-conf.style.left=Math.random()*100+"vw";
-
-conf.style.animationDuration=(Math.random()*3+2)+"s";
-
-document.body.appendChild(conf);
-
-setTimeout(()=>{conf.remove();},5000);
-
-}
-
-function startConfetti(){
-
-for(let i=0;i<120;i++){
-setTimeout(createConfetti,i*20);
-}
 
 }
 
